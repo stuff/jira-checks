@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "Jira checks",
+  "description": "Add check list per task",
+  "version": "<<version>>",
+  
+  "options_page": "options.html",
+
+  "content_scripts": [
+    {
+      "matches": ["https://*.atlassian.net/browse/*"],
+      "js": [
+        "vendors.js",
+        "task.js"
+      ]
+    }
+  ],
+  
+  "icons":{
+    "32": "favicon_32.png"
+  },
+  
+  "permissions": [
+    "storage",
+    "https://*.atlassian.net/"
+  ]
+}

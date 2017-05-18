@@ -1,0 +1,32 @@
+.options {
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    width: 400px;
+    padding: 20px;
+
+    &__label {
+        display: block;
+        padding-bottom: 4px;
+    }
+
+    &__row {
+        margin-bottom: 20px;
+        
+        &--hasError {
+            .options__label {
+                color: red;
+            }
+            .options__widget {
+                outline: none;
+                border: 1px solid red;
+            }
+        }
+    }
+    
+    &__widget {
+        width: 90%;
+        
+        textarea& {
+            height: 200px;
+        }
+    }
+}

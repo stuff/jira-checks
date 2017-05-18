@@ -1,0 +1,57 @@
+.checkEdit {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-start;
+
+    &__states {
+        top: 7px;
+    } 
+    
+    &__text {
+        flex: 2 0 0;
+        border: 0;
+        padding: 6px;
+        display: block;
+        font-size: 12px;
+        background: transparent;
+
+        &:focus {
+            outline: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    &__delete {
+        opacity: 0;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.7);
+        display: block;
+        line-height: 22px;
+        width: 22px;
+        text-align: center;
+
+        &:hover {
+            color: rgb(0, 0, 0);
+        }
+    }
+}
+
+.checkEdit:hover {
+    background: rgba(0, 0, 0, 0.05);
+
+    .checkEdit {
+        &__delete {
+            opacity: 1;
+        }
+    }
+}
+
+.checkEdit.checkEdit--locked {
+    opacity: 0.4;
+}
+
+.checkEdit.checkEdit--done {
+    .checkEdit__text {
+        font-weight: bold;
+    }
+}
