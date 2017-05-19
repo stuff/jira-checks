@@ -99,11 +99,12 @@ class CheckEdit extends React.Component {
         );
         
         const user = this.props.check.user;
+        const status = this.state.status || STATE_NONE;
         
 
         return (
             <div className={ classnames }>
-                <StateSelector className="checkEdit__states" status={ this.state.status } onChange={ this.handleCheckToggle } />
+                <StateSelector className="checkEdit__states" status={ status } onChange={ this.handleCheckToggle } />
                 <CheckUser user={ user } />
                 <CheckTextarea
                     className="checkEdit__text"
@@ -113,7 +114,7 @@ class CheckEdit extends React.Component {
                     onFocus={ this.handleInputFocus }
                     onChange={ this.handleTextChange }
                     onValidate={ this.handleValidate }
-                    disabled={ lockedBySomeoneElse || this.state.status !== STATE_NONE }
+                    disabled={ lockedBySomeoneElse || status !== STATE_NONE }
                 />
                 
                 <a className="checkEdit__delete" onClick={ this.handleRemove }>
