@@ -23,8 +23,12 @@ function CheckUser({ user }) {
 }
 
 function getShorName(user) {
-    const split = user.displayname.split(' ');
-    return split[0] + ' ' + split[1].charAt(0) + '.';
+    let { displayname } = user;
+    let split = displayname.split(' ');
+    const firstName = split.shift();
+    const last = split.reduce((t, a) => { return t + a[0] + '.' }, '');
+    
+    return firstName + ' ' + last;
 }
 
 export default CheckUser;
