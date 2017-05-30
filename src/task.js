@@ -1,21 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { getTaskInformations, getUserInformations } from './jira/helpers';
+import { getTaskInformations, getUserInformations, attachDetailViewChangedCallback } from './jira/helpers';
 import { initDb } from './db/connect';
-import JiraModule from './task/components/JiraModule';
-import ChecksEditor from './task/components/ChecksEditor';
-import getOptions from './options/getOptions';
+// import JiraModule from './task/components/JiraModule';
+// import ChecksEditor from './task/components/ChecksEditor';
+import renderChecksEditor from './task/services/renderChecksEditor';
 
+import getOptions from './options/getOptions';
 
 
 const jira = getTaskInformations();
 const currentUser = getUserInformations();
 
 const beforeElement = document.getElementById('descriptionmodule');
-const root = document.createElement('div');
-
-beforeElement.parentNode.insertBefore(root, beforeElement);
+// const root = document.createElement('div');
+//
+// beforeElement.parentNode.insertBefore(root, beforeElement);
 
 function addCss(fileName) {
     const head = document.head;
@@ -36,15 +37,16 @@ getOptions()
             ReactDOM.render(<div>Go to extension options page to configure Firebase</div>, root);
             return;
         }
-        
+
         initDb(config.firebaseConfig);
-        
-        ReactDOM.render(
-            <JiraModule>
-                <ChecksEditor jira={ jira } user={ currentUser } />
-            </JiraModule>,
-            root
-        );
-        
-    })
+
+        renderChecksEditor(beforeElement, null, jira, currentUser);
+
+        // ReactDOM.render(
+        //     <JiraModule>
+        //         <ChecksEditor jira={ jira } user={ currentUser } />
+        //     </JiraModule>,
+        //     root
+        // );
+    });
 

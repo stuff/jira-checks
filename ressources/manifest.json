@@ -14,6 +14,14 @@
         "vendors.js",
         "task.js"
       ]
+    },
+    
+    {
+      "matches": ["https://*.atlassian.net/secure/RapidBoard*"],
+      "js": [
+        "vendors.js",
+        "board.js"
+      ]
     }
   ],
   

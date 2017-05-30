@@ -11,14 +11,18 @@ export function getUserInformations() {
     }
 }
 
-export function getTaskInformations() {
+export function getTaskInformations(element) {
     const ISSUE_KEY = 'data-issue-key';
-    const headerElement = document.querySelector('#stalker');
+    const headerElement = element || document.querySelector('#stalker');
     const issueKey = headerElement.querySelector(`[${ISSUE_KEY}]`).getAttribute(ISSUE_KEY);
     const issueTitle = headerElement.querySelector('#summary-val').innerText;
     const assignee = JSON.parse(document.querySelector("[id^='issue_summary_assignee']").getAttribute('data-user'));
     const reporter = JSON.parse(document.querySelector("[id^='issue_summary_reporter']").getAttribute('data-user'));
-    const createdAt = new Date(document.querySelector('#created-val').querySelector('time').getAttribute('datetime'));
+    
+    const createdValElement = document.querySelector('#created-val');
+    
+    const createdAt = createdValElement ? new Date(document.querySelector('#created-val').querySelector('time').getAttribute('datetime')) : '';
+    
     return {
         issueKey,
         issueTitle,
@@ -26,4 +30,31 @@ export function getTaskInformations() {
         reporter,
         createdAt,
     }
+}
+
+let detailElementMutationObserver = null;
+
+export function attachDetailViewChangedCallback(callback) {
+  
+  if (detailElementMutationObserver !== null) {
+    detailElementMutationObserver.disconnect();
+  }
+
+  detailElementMutationObserver = new MutationObserver(function(mutations) {
+    mutations.forEach((mutation) => {
+      if (
+        mutation.target.id === 'ghx-detail-contents' &&
+        mutation.addedNodes.length > 0 &&
+        mutation.addedNodes[0].id === 'ghx-detail-issue'
+      ) {
+        const detailIssueElement = mutation.target.querySelector('.ghx-detail-issue');
+        callback(getTaskInformations(detailIssueElement));
+      }
+    });
+  });
+
+  detailElementMutationObserver.observe(document.getElementById('ghx-detail-view'), {
+    childList: true,
+    subtree: true,
+  });
 }

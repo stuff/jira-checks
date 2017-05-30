@@ -10,6 +10,7 @@ const config = {
 
     entry: {
         task: './src/task.js',
+        board: './src/board.js',
         options: './src/options/index.js',
         testEdit: './src/test-edit.js',
     },
