@@ -1,39 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
 import { getUserInformations, attachDetailViewChangedCallback } from './jira/helpers';
-import { initDb } from './db/connect';
 import renderChecksEditor from './task/services/renderChecksEditor';
-import getOptions from './options/getOptions';
+import firebaseInit from './task/services/firebaseInit';
+import fontAwesomeCssInject from './task/services/fontAwesomeCssInject';
+import errorDisplay from './task/services/errorDisplay';
 
 const currentUser = getUserInformations();
 
-function addCss(fileName) {
-  const head = document.head;
-  const link = document.createElement('link');
+fontAwesomeCssInject();
 
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  link.href = fileName;
+attachDetailViewChangedCallback((jira) => {
+  const beforeElement = document.getElementById('descriptionmodule').parentNode;
 
-  head.appendChild(link)
-}
+  firebaseInit()
+    .then(() => {
+        const beforeElement = document.getElementById('descriptionmodule').parentNode;
 
-addCss('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-
-getOptions()
-  .then((config) => {
-    if (!config.firebaseConfig) {
-      ReactDOM.render(<div>Go to extension options page to configure Firebase</div>, root);
-      return;
-    }
-
-    initDb(config.firebaseConfig);
-
-    attachDetailViewChangedCallback((jira) => {
-      const beforeElement = document.getElementById('descriptionmodule').parentNode;
-      
-      renderChecksEditor(beforeElement, 'ghx-detail-section', jira, currentUser);
-      
+        renderChecksEditor(beforeElement, 'ghx-detail-section', jira, currentUser);
+      })
+    .catch((error) => {
+      errorDisplay(error, beforeElement);
     });
-  });
+});
