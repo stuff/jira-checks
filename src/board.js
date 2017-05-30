@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { getTaskInformations, getUserInformations, attachDetailViewChangedCallback } from './jira/helpers';
+import { getUserInformations, attachDetailViewChangedCallback } from './jira/helpers';
 import { initDb } from './db/connect';
-// import JiraModule from './task/components/JiraModule';
-// import ChecksEditor from './task/components/ChecksEditor';
 import renderChecksEditor from './task/services/renderChecksEditor';
 import getOptions from './options/getOptions';
 
@@ -36,18 +34,6 @@ getOptions()
       const beforeElement = document.getElementById('descriptionmodule').parentNode;
       
       renderChecksEditor(beforeElement, 'ghx-detail-section', jira, currentUser);
-      
-      // const root = document.createElement('div');
-      // root.id = 'CHECKLIST';
-      //
-      // beforeElement.parentNode.insertBefore(root, beforeElement);
-      //
-      // ReactDOM.render(
-      //   <JiraModule className="ghx-detail-section">
-      //     <ChecksEditor jira={ jira } user={ currentUser } />
-      //   </JiraModule>,
-      //   root
-      // );
       
     });
   });
