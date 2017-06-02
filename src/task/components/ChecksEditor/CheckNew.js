@@ -1,5 +1,6 @@
 import React from 'react';
 import CheckTextarea from '../CheckTextarea';
+import { STATE_NONE } from './CheckEdit';
 
 import './checkNew.less';
 
@@ -14,7 +15,10 @@ class CheckNew extends React.Component {
     
     handleValidate = (value) => {
         this.setState({ value: '' });
-        this.props.onCreate({ text: value });
+        this.props.onCreate({
+          text: value,
+          status: STATE_NONE,
+        });
     }
     
     render() {
