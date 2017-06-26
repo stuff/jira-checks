@@ -5,7 +5,7 @@ import CheckNew from './CheckNew';
 
 import css from './checkList.less';
 
-function ChecksList({ list, onChange, onCreate, onStartEdit, onEndEdit, onDelete }) {
+function ChecksList({ jira, list, onChange, onCreate, onStartEdit, onEndEdit, onDelete }) {
     return (
         <ul className="checkList">
             {
@@ -33,6 +33,7 @@ function ChecksList({ list, onChange, onCreate, onStartEdit, onEndEdit, onDelete
             }
             <li className="checkList__item">
                 <CheckNew
+                    jira={ jira }
                     onCreate={ onCreate }
                 />
             </li>

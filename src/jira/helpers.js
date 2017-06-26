@@ -14,7 +14,8 @@ export function getUserInformations() {
 export function getTaskInformations(element) {
     const ISSUE_KEY = 'data-issue-key';
     const headerElement = element || document.querySelector('#stalker');
-    const issueKey = headerElement.querySelector(`[${ISSUE_KEY}]`).getAttribute(ISSUE_KEY);
+    const issueKeyElement = [...headerElement.querySelectorAll(`[${ISSUE_KEY}]`)].pop();
+    const issueKey = issueKeyElement.getAttribute(ISSUE_KEY);
     const issueTitle = headerElement.querySelector('#summary-val').innerText;
     const assignee = JSON.parse(document.querySelector("[id^='issue_summary_assignee']").getAttribute('data-user'));
     const reporter = JSON.parse(document.querySelector("[id^='issue_summary_reporter']").getAttribute('data-user'));

@@ -25,7 +25,7 @@ class CheckNew extends React.Component {
         return (
             <CheckTextarea
                 className="checkNew"
-                placeholder="Enter something useful :)"
+                placeholder={ `Enter something useful for ${this.props.jira.issueKey} :)` }
                 onChange={ this.handleChange }
                 onValidate={ this.handleValidate }
                 value={ this.state.value }

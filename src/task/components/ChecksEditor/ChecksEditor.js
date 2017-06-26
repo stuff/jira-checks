@@ -112,6 +112,7 @@ class ChecksEditor extends React.Component {
             <div className="checksEditor">
                 { this.state.loading && <Spinner /> }
                 <ChecksList
+                    jira={ this.props.jira }
                     list={ this.state.checks }
                     onChange={ this.handleCheckChange }
                     onCreate={ this.handleCheckCreate }
