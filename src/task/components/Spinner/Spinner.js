@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import './spinner.less';
+import "./oc-spinner.less";
 
 function Spinner() {
-    return (
-        <div className="spinner">
-            <div className="bounce1"></div>
-            <div className="bounce2"></div>
-            <div className="bounce3"></div>
-        </div>
-    )
+  return (
+    <div className="oc-spinner">
+      <div className="bounce1" />
+      <div className="bounce2" />
+      <div className="bounce3" />
+    </div>
+  );
 }
 
 export default Spinner;
