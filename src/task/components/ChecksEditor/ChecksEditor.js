@@ -4,7 +4,7 @@ import has from 'lodash/has';
 
 import ChecksDb from '../../../db/ChecksDb';
 import ChecksList from './ChecksList';
-import { STATE_NONE, STATE_STAGE, STATE_VALIDATED, STATE_WIP } from './CheckEdit';
+import { STATE_NONE } from './CheckEdit';
 import Spinner from '../Spinner';
 
 import './checksEditor.less';
