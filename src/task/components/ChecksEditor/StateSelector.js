@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import './stateSelector.less';
 
-import { STATE_NONE, STATE_STAGE, STATE_VALIDATED, STATE_WIP } from './CheckEdit';
+import { STATE_NONE, STATE_STAGE, STATE_VALIDATED, STATE_WIP, STATE_WONT_DO } from './CheckEdit';
 
 class StateSelector extends React.Component {
     constructor(props) {
@@ -13,6 +13,7 @@ class StateSelector extends React.Component {
         this.handleSelectWip = this.handleSelect.bind(this, STATE_WIP);
         this.handleSelectStage = this.handleSelect.bind(this, STATE_STAGE);
         this.handleSelectValidated = this.handleSelect.bind(this, STATE_VALIDATED);
+        this.handleSelectWontDo = this.handleSelect.bind(this, STATE_WONT_DO);
     }
 
     handleSelect(state) {
@@ -29,6 +30,7 @@ class StateSelector extends React.Component {
             { 'stateSelector--wip': status === STATE_WIP },
             { 'stateSelector--stage': status === STATE_STAGE },
             { 'stateSelector--done': status === STATE_VALIDATED },
+            { 'stateSelector--wontdo': status === STATE_WONT_DO },
         );
 
         return (
@@ -37,6 +39,7 @@ class StateSelector extends React.Component {
                 <span title="WIP" onClick={ this.handleSelectWip } className="stateSelector__state" />
                 <span title="STAGE" onClick={ this.handleSelectStage } className="stateSelector__state" />
                 <span title="DONE" onClick={ this.handleSelectValidated } className="stateSelector__state" />
+                <span title="WON'T DO" onClick={ this.handleSelectWontDo } className="stateSelector__state" />
             </span>
         );
     }

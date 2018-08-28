@@ -10,6 +10,7 @@ export const STATE_NONE      = 'NONE';
 export const STATE_WIP       = 'WIP';
 export const STATE_STAGE     = 'STAGE';
 export const STATE_VALIDATED = 'VALIDATED';
+export const STATE_WONT_DO   = 'WONTDO';
 
 class CheckEdit extends React.Component {
     constructor(props) {
@@ -100,7 +101,6 @@ class CheckEdit extends React.Component {
         
         const user = this.props.check.user;
         const status = this.state.status || STATE_NONE;
-        
 
         return (
             <div className={ classnames }>
