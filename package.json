@@ -1,6 +1,6 @@
 {
   "name": "jira-checks",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
@@ -26,6 +26,7 @@
     "classnames": "^2.2.5",
     "color-hash": "^1.0.3",
     "css-loader": "^0.26.1",
+    "element-ready": "^3.0.0",
     "eventemitter3": "^2.0.2",
     "firebase": "^3.6.8",
     "less": "^2.7.2",

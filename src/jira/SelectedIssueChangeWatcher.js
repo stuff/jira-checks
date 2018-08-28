@@ -6,7 +6,6 @@ export default class SelectedIssueChangeWatcher {
     this.issue = null;
     this.view = null;
     this.waitIssueLoadInterval = null;
-    this.detailElementMutationObserver = null;
     this.watchUrlChanges();
   }
 

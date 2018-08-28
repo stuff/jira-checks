@@ -1,8 +1,9 @@
-export function getUserInformations() {
-  const avatarElement = document.querySelector("#header-details-user-fullname");
-  const displayname = avatarElement.getAttribute("data-displayname");
-  const username = avatarElement.getAttribute("data-username");
-  const avatarImageElement = avatarElement.querySelector("img");
+import elementReady from 'element-ready';
+
+export async function getUserInformations() {
+  const displayname = document.querySelector("[name=ajs-remote-user-fullname]").content;
+  const username = document.querySelector("[name=ajs-remote-user]").content;
+  const avatarImageElement = await elementReady('#menu-profile [src*=avatar-cdn]');
 
   return {
     displayname,
