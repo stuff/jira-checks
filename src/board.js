@@ -7,16 +7,13 @@ import fontAwesomeCssInject from "./task/services/fontAwesomeCssInject";
 import errorDisplay from "./task/services/errorDisplay";
 
 async function renderCheckList(jira) {
-  const beforeElement = document.getElementById("descriptionmodule").parentNode;
+  const descriptionModule =  document.getElementById("descriptionmodule");
   const currentUser = await getUserInformations();
 
   try {
-    const beforeElement = document.getElementById("descriptionmodule")
-      .parentNode;
-
-    renderChecksEditor(beforeElement, "ghx-detail-section", jira, currentUser);
+    renderChecksEditor(descriptionModule, "ghx-detail-section", jira, currentUser);
   } catch (error) {
-    errorDisplay(error, beforeElement);
+    errorDisplay(error, descriptionModule);
   }
 }
 
