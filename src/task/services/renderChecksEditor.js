@@ -15,13 +15,19 @@ function cleanPreviousRendering() {
   element.remove();
 }
 
-function renderChecksEditor(beforeElement, className, jira, currentUser) {
+export function insertCheckListContainer(target) {
   cleanPreviousRendering();
 
-  const root = document.createElement("div");
-  root.id = ID;
+  const container = document.createElement("div");
+  container.id = ID;
 
-  beforeElement.parentNode.insertBefore(root, beforeElement);
+  target.parentNode.insertBefore(container, target);
+
+  return container;
+}
+
+function renderChecksEditor(target, className, jira, currentUser) {
+  const root = insertCheckListContainer(target);
 
   ReactDOM.render(
     <JiraModule className={className}>

@@ -6,7 +6,7 @@ import errorDisplay from './task/services/errorDisplay';
 
 
 
-const beforeElement = document.getElementById('descriptionmodule');
+const descriptionModule = document.getElementById('descriptionmodule');
 
 fontAwesomeCssInject();
 
@@ -15,8 +15,8 @@ firebaseInit()
     const jira = getTaskInformations();
     const currentUser = await getUserInformations();
 
-    renderChecksEditor(beforeElement, null, jira, currentUser);
+    renderChecksEditor(descriptionModule, null, jira, currentUser);
   })
   .catch((error) => {
-    errorDisplay(error, beforeElement);
+    errorDisplay(error, descriptionModule);
   });
