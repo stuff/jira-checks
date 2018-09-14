@@ -12,6 +12,22 @@ export async function getUserInformations() {
   };
 }
 
+function getUserData(selector) {
+  const domContainer =  document.querySelector(selector);
+
+  if (!domContainer) {
+    return {};
+  }
+
+  const userAttribute = domContainer.getAttribute('data-user');
+
+  if (!userAttribute) {
+    return {};
+  }
+
+  return JSON.parse(userAttribute);
+}
+
 export function getTaskInformations(element) {
   const ISSUE_KEY = "data-issue-key";
   const headerElement = element || document.querySelector("#stalker");
@@ -20,16 +36,9 @@ export function getTaskInformations(element) {
   ].pop();
   const issueKey = issueKeyElement.getAttribute(ISSUE_KEY);
   const issueTitle = headerElement.querySelector("#summary-val").innerText;
-  const assignee = JSON.parse(
-    document
-      .querySelector("[id^='issue_summary_assignee']")
-      .getAttribute("data-user")
-  );
-  const reporter = JSON.parse(
-    document
-      .querySelector("[id^='issue_summary_reporter']")
-      .getAttribute("data-user")
-  );
+
+  const assignee = getUserData('[id^=\'issue_summary_assignee\']');
+  const reporter = getUserData("[id^='issue_summary_reporter']");
 
   const createdValElement = document.querySelector("#created-val");
 
