@@ -1,12 +1,13 @@
 import EventEmitter from 'eventemitter3';
 
 import { getDb } from './connect';
+import LogsDb from './LogsDb';
 
 export default class Db extends EventEmitter {
     constructor(dbRootElement) {
         super();
         this.ref = getDb().ref(dbRootElement);
-
+        this.logDb = new LogsDb();
         this.attachEvents();
     }
 
@@ -43,15 +44,24 @@ export default class Db extends EventEmitter {
         const createdAt = Date.now();
         const modifiedAt = Date.now();
 
-        this.ref.push().set({
-            ...obj,
-            modifiedAt,
-            createdAt,
-        });
+        this.ref.push()
+            .set({
+                ...obj,
+                modifiedAt,
+                createdAt,
+            }, (error) => {
+              if (error) {
+                this.log('create error', error);
+              }
+            });
     }
 
     delete(id) {
-        this.ref.child(id).remove();
+        this.ref.child(id).remove((error) => {
+          if (error) {
+            this.log('delete error', error);
+          }
+        });
     }
 
     update(id, obj) {
@@ -63,7 +73,11 @@ export default class Db extends EventEmitter {
             modifiedAt,
         };
 
-        objRef.update(modifiedObj);
+        objRef.update(modifiedObj, (error) => {
+            if (error) {
+                this.log('update error', error);
+            }
+        });
     }
 
     getAll() {
@@ -83,6 +97,21 @@ export default class Db extends EventEmitter {
         return this.ref.child(child).once('value').then(snapshot => {
             return snapshot.val();
         });
+    }
+
+    log(message, error) {
+        console.log(message);
+
+        if (error) {
+          console.error(error);
+
+          const finalMessage = `${message}: ${error.message}`;
+
+          this.logDb.create({
+            message: finalMessage,
+            stack: error.stack.toString(),
+          });
+        }
     }
 }
 
