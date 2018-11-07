@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "babel-preset-stage-0": "^6.22.0",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "color-hash": "^1.0.3",
     "css-loader": "^0.26.1",
     "element-ready": "^3.0.0",

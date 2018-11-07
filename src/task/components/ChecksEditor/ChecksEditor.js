@@ -15,6 +15,7 @@ class ChecksEditor extends React.Component {
 
         this.state = {
             loading: true,
+            isOffline: false,
             checks: {},
         };
 
@@ -33,7 +34,21 @@ class ChecksEditor extends React.Component {
         this.checksDb.on('child_added', this.handleAddedCheck);
         this.checksDb.on('child_changed', this.handleChangedCheck);
         this.checksDb.on('child_removed', this.handleRemovedCheck);
+        this.checksDb.on('offline', this.handleOffline);
+        this.checksDb.on('online', this.handleOnline);
     }
+
+    handleOffline = () => {
+        this.setState({
+          isOffline: true,
+        });
+    };
+
+    handleOnline = () => {
+      this.setState({
+        isOffline: false,
+      });
+    };
 
     handleDelete(key) {
         this.checksDb.delete(key);
@@ -62,7 +77,7 @@ class ChecksEditor extends React.Component {
                 check.user = this.props.user;
             }
         }
-        
+
         this.checksDb.update(id, check);
     }
 
@@ -111,7 +126,9 @@ class ChecksEditor extends React.Component {
         return (
             <div className="checksEditor">
                 { this.state.loading && <Spinner /> }
+
                 <ChecksList
+                    isOffline={ this.state.isOffline }
                     jira={ this.props.jira }
                     list={ this.state.checks }
                     onChange={ this.handleCheckChange }

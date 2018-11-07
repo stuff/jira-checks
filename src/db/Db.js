@@ -26,6 +26,11 @@ export default class Db extends EventEmitter {
             this.emit('child_removed', data.key, data.val());
         };
         this.ref.on('child_removed', this._child_removed);
+
+
+        getDb().ref('.info/connected').on('value', (snap) => {
+            this.emit(snap.val() ? 'online' : 'offline');
+        });
     }
 
     destroy() {
@@ -71,7 +76,7 @@ export default class Db extends EventEmitter {
                 });
 
                 return list;
-            });
+            })
     }
 
     get(child) {

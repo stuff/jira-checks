@@ -1,13 +1,16 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import CheckEdit from './CheckEdit';
 import CheckNew from './CheckNew';
 
 import css from './checkList.less';
 
-function ChecksList({ jira, list, onChange, onCreate, onStartEdit, onEndEdit, onDelete }) {
+function ChecksList({ jira, list, isOffline, onChange, onCreate, onStartEdit, onEndEdit, onDelete }) {
     return (
-        <ul className="checkList">
+        <ul className={ classnames('checkList', {
+          'checkList--offline': isOffline,
+        }) }>
             {
                 Object.keys(list).map(key => {
                     const handleStartEdit = (uid) => { onStartEdit(key, uid); };
