@@ -4,8 +4,6 @@ import firebaseInit from './task/services/firebaseInit';
 import fontAwesomeCssInject from './task/services/fontAwesomeCssInject';
 import errorDisplay from './task/services/errorDisplay';
 
-
-
 const descriptionModule = document.getElementById('descriptionmodule');
 
 fontAwesomeCssInject();

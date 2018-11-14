@@ -1,14 +1,11 @@
-import elementReady from 'element-ready';
-
 export async function getUserInformations() {
   const displayname = document.querySelector("[name=ajs-remote-user-fullname]").content;
   const username = document.querySelector("[name=ajs-remote-user]").content;
-  const avatarImageElement = await elementReady('#menu-profile [role="img"]');
 
   return {
     displayname,
     username,
-    avatarUrl: avatarImageElement.style.getPropertyValue('background-image').split('"')[1]
+    avatarUrl: '',
   };
 }
 
