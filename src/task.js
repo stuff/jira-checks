@@ -15,6 +15,6 @@ firebaseInit()
 
     renderChecksEditor(descriptionModule, null, jira, currentUser);
   })
-  .catch((error) => {
+  .catch(error => {
     errorDisplay(error, descriptionModule);
   });
