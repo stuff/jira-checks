@@ -4,17 +4,28 @@ import firebaseInit from './task/services/firebaseInit';
 import fontAwesomeCssInject from './task/services/fontAwesomeCssInject';
 import errorDisplay from './task/services/errorDisplay';
 
-const descriptionModule = document.getElementById('descriptionmodule');
-
 fontAwesomeCssInject();
 
-firebaseInit()
-  .then(async () => {
+let descriptionModuleElement = document.getElementById('descriptionmodule');
+
+// "New" JIRA UI
+if (!descriptionModuleElement) {
+  const element = document.querySelectorAll(
+    '[class^=GridColumnElement__GridColumn]'
+  )[1];
+  descriptionModuleElement = element.querySelectorAll(':scope > div > div')[2];
+}
+
+(async () => {
+  try {
+    await firebaseInit();
+
     const jira = getTaskInformations();
     const currentUser = await getUserInformations();
 
-    renderChecksEditor(descriptionModule, null, jira, currentUser);
-  })
-  .catch(error => {
-    errorDisplay(error, descriptionModule);
-  });
+    renderChecksEditor(descriptionModuleElement, null, jira, currentUser);
+  } catch (error) {
+    errorDisplay(error, descriptionModuleElement);
+    throw error;
+  }
+})();

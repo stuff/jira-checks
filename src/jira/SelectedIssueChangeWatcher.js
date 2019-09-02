@@ -1,4 +1,5 @@
-import { getTaskInformations } from "./helpers";
+import qs from 'qs';
+import { getTaskInformations } from './helpers';
 
 export default class SelectedIssueChangeWatcher {
   constructor(onChange) {
@@ -11,51 +12,39 @@ export default class SelectedIssueChangeWatcher {
 
   watchUrlChanges = () => {
     setInterval(() => {
-      const url = new URL(document.location.href);
-      const issue = url.searchParams.get("selectedIssue");
-      const view = url.searchParams.get("view");
+      const { modal, selectedIssue } = qs.parse(document.location.search, {
+        ignoreQueryPrefix: true
+      });
 
-      const viewHasChanged = view !== this.view;
-      const issueHasChanged = issue !== this.issue;
+      const issueHasChanged = selectedIssue !== this.issue;
 
       if (issueHasChanged) {
-        this.issue = issue;
-      }
-
-      if (viewHasChanged) {
-        this.view = view;
-        this.issue = null;
+        this.issue = selectedIssue;
       }
 
       if (issueHasChanged) {
-        this.handleIssueChange(issue);
+        this.handleIssueChange(selectedIssue);
       }
-    }, 500);
+    }, 100);
   };
 
   handleIssueChange(issue) {
     this.stopWaitIssueLoadInterval();
 
     this.waitIssueLoadInterval = setInterval(() => {
-      const element = document.getElementById("issuekey-val");
+      const element = document.querySelector(
+        'div[role=dialog] [aria-label*=attachment]'
+      );
 
       if (!element) {
         return;
       }
 
-      const currentDisplayedIssue = element.innerText;
+      const dialog = document.querySelector('div[role=dialog]');
 
-      if (currentDisplayedIssue === issue) {
-        const detailElement = document.getElementById("ghx-detail-contents");
-
-        if (!detailElement) {
-          return;
-        }
-
-        this.stopWaitIssueLoadInterval();
-        this.onChange(getTaskInformations(detailElement));
-      }
-    }, 100);
+      this.stopWaitIssueLoadInterval();
+      this.onChange(getTaskInformations(dialog));
+    }, 50);
   }
 
   stopWaitIssueLoadInterval() {

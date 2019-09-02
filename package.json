@@ -1,6 +1,6 @@
 {
   "name": "jira-checks",
-  "version": "1.6.6",
+  "version": "1.7.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
@@ -31,10 +31,10 @@
     "classnames": "^2.2.6",
     "color-hash": "^1.0.3",
     "css-loader": "^0.26.1",
-    "element-ready": "^3.0.0",
     "eventemitter3": "^2.0.2",
     "firebase": "^3.6.8",
     "lodash": "^4.17.15",
+    "qs": "^6.8.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-textarea-autosize": "^4.0.5",

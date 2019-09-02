@@ -1,16 +1,36 @@
+import qs from 'qs';
+
 export async function getUserInformations() {
-  const displayname = document.querySelector("[name=ajs-remote-user-fullname]").content;
-  const username = document.querySelector("[name=ajs-remote-user]").content;
+  const displayname = document.querySelector('[name=ajs-remote-user-fullname]')
+    .content;
+  const username = document.querySelector('[name=ajs-remote-user]').content;
 
   return {
     displayname,
     username,
-    avatarUrl: '',
+    avatarUrl: ''
   };
 }
 
-function getUserData(selector) {
-  const domContainer =  document.querySelector(selector);
+function getUserData(element) {
+  // // Disabled, the backgroundImage css property appears asynchronously
+  // // TODO: find a way to wait for it?
+  // const avatarUrl = element
+  //   .querySelector('span[role=img]')
+  //   .style.backgroundImage.match(/(https:\/\/.*?)"/)[1];
+
+  const displayName = element.querySelector(
+    '[class^="SingleLineTextInput__ReadView"]'
+  ).innerText;
+
+  return {
+    // avatarUrl,
+    displayName
+  };
+}
+
+function getUserDataOld(selector) {
+  const domContainer = document.querySelector(selector);
 
   if (!domContainer) {
     return {};
@@ -25,31 +45,69 @@ function getUserData(selector) {
   return JSON.parse(userAttribute);
 }
 
+function getIssueKey() {
+  let issueKey;
+
+  try {
+    issueKey = document.location.pathname.match(
+      /\/browse\/([A-Za-z0-9\-]+)/
+    )[1]; // get key as part of the pathName
+  } catch (e) {
+    const { selectedIssue } = qs.parse(document.location.search, {
+      ignoreQueryPrefix: true
+    });
+    issueKey = selectedIssue;
+  }
+
+  return issueKey;
+}
+
 export function getTaskInformations(element) {
-  const ISSUE_KEY = "data-issue-key";
-  const headerElement = element || document.querySelector("#stalker");
-  const issueKeyElement = [
-    ...headerElement.querySelectorAll(`[${ISSUE_KEY}]`)
-  ].pop();
-  const issueKey = issueKeyElement.getAttribute(ISSUE_KEY);
-  const issueTitle = headerElement.querySelector("#summary-val").innerText;
+  const useOld = Boolean(document.querySelector('#created-val'));
+  const info = useOld
+    ? getTaskInformationsOld(element)
+    : getTaskInformationsNew(element);
 
-  const assignee = getUserData('[id^=\'issue_summary_assignee\']');
-  const reporter = getUserData("[id^='issue_summary_reporter']");
+  return {
+    ...info,
+    issueKey: getIssueKey()
+  };
+}
 
-  const createdValElement = document.querySelector("#created-val");
+function getTaskInformationsNew(element = document) {
+  const issueTitle = element.querySelector(
+    '[data-test-id="issue.views.issue-base.foundation.summary.heading"]'
+  ).innerText;
+
+  const [assigneeElement, reporterElement] = element.querySelector(
+    '[data-test-id="issue.views.issue-base.context.context-items.primary-items"]'
+  ).children;
+
+  const assignee = getUserData(assigneeElement);
+  const reporter = getUserData(reporterElement);
+
+  return { issueTitle, assignee, reporter };
+}
+
+function getTaskInformationsOld(element) {
+  const headerElement = element || document.querySelector('#stalker');
+  const issueTitle = headerElement.querySelector('#summary-val').innerText;
+
+  const assignee = getUserDataOld("[id^='issue_summary_assignee']");
+  const reporter = getUserDataOld("[id^='issue_summary_reporter']");
+
+  const createdValElement = document.querySelector('#created-val');
 
   const createdAt = createdValElement
     ? new Date(
         document
-          .querySelector("#created-val")
-          .querySelector("time")
-          .getAttribute("datetime")
+          .querySelector('#created-val')
+          .querySelector('time')
+          .getAttribute('datetime')
       )
-    : "";
+    : '';
 
   return {
-    issueKey,
     issueTitle,
     assignee,
     reporter,
@@ -58,5 +116,5 @@ export function getTaskInformations(element) {
 }
 
 export function getDetailIssueElement(rootElement = document) {
-  return rootElement.querySelector(".ghx-detail-issue");
+  return rootElement.querySelector('.ghx-detail-issue');
 }
