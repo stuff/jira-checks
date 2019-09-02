@@ -4,25 +4,26 @@ import { getTaskInformations } from './helpers';
 export default class SelectedIssueChangeWatcher {
   constructor(onChange) {
     this.onChange = onChange;
-    this.issue = null;
-    this.view = null;
+    //this.issue = null;
+    this.modalIsOpened = null;
     this.waitIssueLoadInterval = null;
     this.watchUrlChanges();
   }
 
   watchUrlChanges = () => {
     setInterval(() => {
-      const { modal, selectedIssue } = qs.parse(document.location.search, {
+      let { modal, selectedIssue } = qs.parse(document.location.search, {
         ignoreQueryPrefix: true
       });
 
-      const issueHasChanged = selectedIssue !== this.issue;
+      const modalIsOpened = Boolean(modal);
+      const modalStatusChanged = modalIsOpened !== this.modalIsOpened;
 
-      if (issueHasChanged) {
-        this.issue = selectedIssue;
+      if (modalStatusChanged) {
+        this.modalIsOpened = modalIsOpened;
       }
 
-      if (issueHasChanged) {
+      if (modalStatusChanged && modalIsOpened) {
         this.handleIssueChange(selectedIssue);
       }
     }, 100);
