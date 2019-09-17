@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import JiraModule from "../components/JiraModule";
-import ChecksEditor from "../components/ChecksEditor";
+import JiraModule from '../components/JiraModule';
+import ChecksEditor from '../components/ChecksEditor';
 
-const ID = "CHECKLIST";
+const ID = 'CHECKLIST';
 
 function cleanPreviousRendering() {
   const element = document.getElementById(ID);
@@ -16,9 +16,13 @@ function cleanPreviousRendering() {
 }
 
 export function insertCheckListContainer(target) {
+  if (!target) {
+    throw Error('Jira Checks: Target element does not exist.');
+  }
+
   cleanPreviousRendering();
 
-  const container = document.createElement("div");
+  const container = document.createElement('div');
   container.id = ID;
 
   target.parentNode.insertBefore(container, target);
