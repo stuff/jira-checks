@@ -10,9 +10,7 @@ let descriptionModuleElement = document.getElementById('descriptionmodule');
 
 // "New" JIRA UI
 if (!descriptionModuleElement) {
-  const element = document.querySelectorAll(
-    '[class^=GridColumnElement__GridColumn]'
-  )[1];
+  const element = document.querySelectorAll('[class^=GridColumnElement__GridColumn]')[1];
   descriptionModuleElement = element.querySelectorAll(':scope > div > div')[2];
 }
 

@@ -15,12 +15,8 @@ async function renderCheckList(jira) {
 
   // "New" JIRA UI
   if (!descriptionModuleElement) {
-    const element = dialog.querySelectorAll(
-      '[class^=GridColumnElement__GridColumn]'
-    )[1];
-    descriptionModuleElement = element.querySelectorAll(
-      ':scope > div > div'
-    )[2];
+    const element = dialog.querySelectorAll('[class^=GridColumnElement__GridColumn]')[1];
+    descriptionModuleElement = element.querySelectorAll(':scope > div > div')[2];
   }
 
   const currentUser = await getUserInformations();
@@ -37,11 +33,9 @@ async function renderCheckList(jira) {
   await firebaseInit();
 
   const useOld = !Boolean(document.querySelector('.bento-enabled'));
-  const Klass = useOld
-    ? SelectedIssueChangeWatcherOld
-    : SelectedIssueChangeWatcher;
+  const Klass = useOld ? SelectedIssueChangeWatcherOld : SelectedIssueChangeWatcher;
 
-  new Klass(jiraDetails => {
+  new Klass((jiraDetails) => {
     renderCheckList(jiraDetails);
   });
 })();
