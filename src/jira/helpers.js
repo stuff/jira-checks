@@ -1,8 +1,7 @@
 import qs from 'qs';
 
 export async function getUserInformations() {
-  const displayname = document.querySelector('[name=ajs-remote-user-fullname]')
-    .content;
+  const displayname = document.querySelector('[name=ajs-remote-user-fullname]').content;
   const username = document.querySelector('[name=ajs-remote-user]').content;
 
   return {
@@ -19,9 +18,7 @@ function getUserData(element) {
   //   .querySelector('span[role=img]')
   //   .style.backgroundImage.match(/(https:\/\/.*?)"/)[1];
 
-  const displayName = element.querySelector(
-    '[class^="SingleLineTextInput__ReadView"]'
-  ).innerText;
+  const displayName = element.querySelector('[class^="SingleLineTextInput__ReadView"]').innerText;
 
   return {
     // avatarUrl,
@@ -49,9 +46,7 @@ function getIssueKey() {
   let issueKey;
 
   try {
-    issueKey = document.location.pathname.match(
-      /\/browse\/([A-Za-z0-9\-]+)/
-    )[1]; // get key as part of the pathName
+    issueKey = document.location.pathname.match(/\/browse\/([A-Za-z0-9\-]+)/)[1]; // get key as part of the pathName
   } catch (e) {
     const { selectedIssue } = qs.parse(document.location.search, {
       ignoreQueryPrefix: true
@@ -64,9 +59,7 @@ function getIssueKey() {
 
 export function getTaskInformations(element) {
   const useOld = Boolean(document.querySelector('#created-val'));
-  const info = useOld
-    ? getTaskInformationsOld(element)
-    : getTaskInformationsNew(element);
+  const info = useOld ? getTaskInformationsOld(element) : getTaskInformationsNew(element);
 
   return {
     ...info,
@@ -79,14 +72,32 @@ function getTaskInformationsNew(element = document) {
     '[data-test-id="issue.views.issue-base.foundation.summary.heading"]'
   ).innerText;
 
-  const [assigneeElement, reporterElement] = element.querySelector(
-    '[data-test-id="issue.views.issue-base.context.context-items.primary-items"]'
-  ).children;
+  const assigneeElement = getBoxInformationRightPanel('assignee');
+  const reporterElement = getBoxInformationRightPanel('reporter');
 
   const assignee = getUserData(assigneeElement);
   const reporter = getUserData(reporterElement);
 
   return { issueTitle, assignee, reporter };
+}
+
+// https://simple-it.atlassian.net/browse/OC-11145 for example, has a right panel
+// with various "box", get one by its title
+function getBoxInformationRightPanel(title, rootElement = document) {
+  const boxes = [
+    ...rootElement.querySelector(
+      '[data-test-id="issue.views.issue-base.context.context-items.primary-items"]'
+    ).children
+  ];
+
+  return boxes.reduce((goodOne, boxElement) => {
+    const boxTitleElement = boxElement.querySelector('h2');
+    if (boxTitleElement && boxTitleElement.innerText.toLowerCase().trim() === title) {
+      return boxElement;
+    }
+
+    return goodOne;
+  }, null);
 }
 
 function getTaskInformationsOld(element) {
