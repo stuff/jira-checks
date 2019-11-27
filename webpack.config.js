@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackAutoInject = require('webpack-auto-inject-version');
 
 const VERSION = require('./package.json').version;
@@ -56,7 +56,7 @@ const config = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(['build']),
+    new CleanWebpackPlugin(),
 
     new CopyWebpackPlugin([
       {

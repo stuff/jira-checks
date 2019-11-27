@@ -4,7 +4,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
-    "create": "./publish.sh"
+    "create-zip": "./publish.sh"
   },
   "author": "Nicolas CHALLEIL",
   "license": "MIT",
